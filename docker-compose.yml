@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  api-banco:
+    image: andr3ygabriel/api-banco:1.1
+    build:
+      context: .
+      dockerfile: api-banco/Dockerfile
+    ports:
+    - 8080:8080
+    - 8081:8081
+    depends_on:
+    - db
+    networks:
+    - api-banco
+  
+
+  db:
+    image: postgres:latest
+    container_name: cliente-movimentacao
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=180223
+    volumes:
+      - C:\Users\andre\OneDrive\Documentos\Banco-Docker:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+    networks:
+      - api-banco
+
+networks:
+  api-banco:
+   driver: bridge
