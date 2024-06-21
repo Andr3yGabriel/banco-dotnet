@@ -12,6 +12,18 @@ namespace api_banco.Infraestructure
             _connectionContext.SaveChanges();
         }
 
+        public void Delete(Cliente cliente)
+        {
+            _connectionContext.Remove(cliente);
+            _connectionContext.SaveChanges();
+        }
+
+        public void Update(Cliente cliente)
+        {
+            _connectionContext.Update(cliente);
+            _connectionContext.SaveChanges();
+        }
+
         public void Deposito(int numero_conta, decimal valor)
         {
 

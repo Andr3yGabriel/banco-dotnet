@@ -11,5 +11,7 @@ namespace api_banco.ViewModel
 
         [Column(TypeName = "decimal(10,2)")]
         public decimal credito { get; set; }
+
+        public DateTime data_criacao { get; set; }
     }
 }

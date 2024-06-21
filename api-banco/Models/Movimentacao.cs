@@ -20,6 +20,8 @@ namespace api_banco.Models
 
         public bool usa_credito { get; set; }
 
+        public DateTime data_mov {  get; set; }
+
         public Movimentacao(string tipo_mov, int numero_conta, int numero_conta_dest, decimal valor_mov, bool usa_credito)
         {
             this.tipo_mov = tipo_mov;

@@ -10,6 +10,10 @@
 
         void Add(Cliente cliente);
 
+        void Delete(Cliente cliente);
+
+        void Update(Cliente cliente);
+
         List<Cliente> Get();
 
         Cliente? Get(int numero_conta);

@@ -1,6 +1,5 @@
 using api_banco.Infraestructure;
 using api_banco.Models;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,15 +15,12 @@ builder.Services.AddTransient<InterfaceClienteRepository, ClienteRepository>();
 // Adição de um serviço transient de InterfaceMovimentacaoRepository com a implementação MovimentacaoRepository
 builder.Services.AddTransient<InterfaceMovimentacaoRepository, MovimentacaoRepository>();
 
-builder.Services.AddDbContext<ConnectionContext>();
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.ApplyMigration();
 }
 
 // Configuração do CORS para permitir solicitações de qualquer origem, método e cabeçalho

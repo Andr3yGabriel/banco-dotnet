@@ -19,10 +19,15 @@ namespace api_banco.Controllers
         public IActionResult AdicionarMovimentacao([FromBody] MovimentacaoViewModel movimentacaoViewModel)
         {
             var movimentacao = new Movimentacao(movimentacaoViewModel.tipo_mov, movimentacaoViewModel.numero_conta, movimentacaoViewModel.numero_conta_dest, movimentacaoViewModel.valor_mov, movimentacaoViewModel.usa_credito);
-
-            _MovimentacaoRepository.Add(movimentacao);
-
-            return Ok("Movimentacao adicionada");
+            try
+            {
+                _MovimentacaoRepository.Add(movimentacao);
+                return Ok("Movimentacao adicionada");
+            }
+            catch (Exception error)
+            {
+                return BadRequest(error.Message);
+            }
         }
 
         [HttpPost("pegar-extrato")]
@@ -43,9 +48,15 @@ namespace api_banco.Controllers
         [HttpGet("listar-movimentacoes")]
         public IActionResult ListarMovimentacoes()
         {
-            var movimentacoes = _MovimentacaoRepository.Get();
-
-            return Ok(movimentacoes);
+            try
+            {
+                var movimentacoes = _MovimentacaoRepository.Get();
+                return Ok(movimentacoes);
+            }
+            catch (Exception error)
+            {
+                return BadRequest(error.Message);
+            }
         }
     }
 }

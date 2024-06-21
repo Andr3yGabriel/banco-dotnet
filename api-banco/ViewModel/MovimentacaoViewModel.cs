@@ -14,5 +14,7 @@ namespace api_banco.ViewModel
         public decimal valor_mov { get; set; }
 
         public bool usa_credito { get; set; }
+
+        public DateTime data_mov { get; set; }
     }
 }

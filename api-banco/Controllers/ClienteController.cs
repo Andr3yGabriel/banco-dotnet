@@ -19,29 +19,89 @@ namespace api_banco.Controllers
 
 
         [HttpPost("adicionar-cliente")]
-        public IActionResult AdicionarCliente([FromForm] ClienteViewModel clienteViewModel)
+        public IActionResult AdicionarCliente([FromBody] ClienteViewModel clienteViewModel)
         {
             var cliente = new Cliente(clienteViewModel.nome, clienteViewModel.saldo, clienteViewModel.credito);
+            try
+            {
+                _ClienteRepository.Add(cliente);
+                return Ok("Cliente adicionado");
+            }
+            catch (Exception error)
+            {
+                return BadRequest(error.Message);
+            }
+        }
 
-            _ClienteRepository.Add(cliente);
+        [HttpDelete("excluir-cliente")]
+        public IActionResult ExcluirCliente(int numero_conta)
+        {
+            var cliente = _ClienteRepository.Get(numero_conta);
+            try
+            {
+                if (cliente == null)
+                {
+                    return NotFound("Cliente inexistente");
+                }
+                _ClienteRepository.Delete(cliente);
+                return Ok("Cliente Excluído com sucesso!");
+            }
+            catch (Exception error)
+            {
+                return BadRequest(error.Message);
+            }
+        }
 
-            return Ok("Cliente adicionado");
+        [HttpPut("atualizar-dados")]
+        public IActionResult AtualizarDados(int numero_conta, [FromBody] ClienteViewModel clienteViewModel)
+        {
+            try
+            {
+                var cliente = _ClienteRepository.Get(numero_conta);
+                if (cliente == null)
+                {
+                    return NotFound("Cliente não encontrado!");
+                }
+                cliente.nome = clienteViewModel.nome;
+                cliente.saldo = clienteViewModel.saldo;
+                cliente.credito = clienteViewModel.credito;
+
+                _ClienteRepository.Update(cliente);
+
+                return Ok("Dados atualizados com sucesso!");
+            }
+            catch (Exception error)
+            {
+                return BadRequest(error.Message);
+            }
         }
 
         [HttpPost("info-cliente")]
         public IActionResult InfoCliente(int numero_conta)
         {
-            var cliente = _ClienteRepository.Get(numero_conta);
-
-            return Ok(cliente);
+            try
+            {
+                var cliente = _ClienteRepository.Get(numero_conta);
+                return Ok(cliente);
+            }
+            catch (Exception error)
+            {
+                return BadRequest(error.Message);
+            }
         }
 
         [HttpGet("listar-clientes")]
         public IActionResult ListarClientes()
         {
-            var clientes = _ClienteRepository.Get();
-
-            return Ok(clientes);
+            try
+            {
+                var clientes = _ClienteRepository.Get();
+                return Ok(clientes);
+            }
+            catch (Exception error)
+            {
+                return BadRequest(error.Message);
+            }
         }
 
         [HttpPost("deposito")]
